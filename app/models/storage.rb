@@ -13,4 +13,5 @@
 class Storage < ApplicationRecord
   has_many   :child_storages, foreign_key: :parent_storage_id, class_name: 'Storage'
   belongs_to :parent_storage, class_name: 'Storage', optional: true
+  has_many   :items
 end

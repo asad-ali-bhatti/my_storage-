@@ -24,11 +24,11 @@ RSpec.describe StoragesController, type: :controller do
   # Storage. As you add validations to Storage, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    attributes_for(:storage)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { invalid_attr: 'invalid' }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -39,7 +39,7 @@ RSpec.describe StoragesController, type: :controller do
   describe "GET #index" do
     it "assigns all storages as @storages" do
       storage = Storage.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: {}
       expect(assigns(:storages)).to eq([storage])
     end
   end

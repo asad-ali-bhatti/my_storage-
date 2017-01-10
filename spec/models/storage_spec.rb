@@ -21,6 +21,7 @@ RSpec.describe Storage, type: :model do
 
   it { should belong_to   :parent_storage }
   it { should have_many(:child_storages).with_foreign_key(:parent_storage_id) }
+  it { should have_many(:items) }
 
   it 'should have multiple child storages' do
     create(:storage, parent_storage: subject)
