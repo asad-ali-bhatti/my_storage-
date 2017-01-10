@@ -52,21 +52,6 @@ RSpec.describe StoragesController, type: :controller do
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new storage as @storage" do
-      get :new, params: {}, session: valid_session
-      expect(assigns(:storage)).to be_a_new(Storage)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested storage as @storage" do
-      storage = Storage.create! valid_attributes
-      get :edit, params: {id: storage.to_param}, session: valid_session
-      expect(assigns(:storage)).to eq(storage)
-    end
-  end
-
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Storage" do
@@ -81,21 +66,17 @@ RSpec.describe StoragesController, type: :controller do
         expect(assigns(:storage)).to be_persisted
       end
 
-      it "redirects to the created storage" do
+      it "sends response 201:created" do
         post :create, params: {storage: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Storage.last)
+        expect(response).to have_http_status(:created) # 201
       end
     end
 
     context "with invalid params" do
-      it "assigns a newly created but unsaved storage as @storage" do
-        post :create, params: {storage: invalid_attributes}, session: valid_session
-        expect(assigns(:storage)).to be_a_new(Storage)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, params: {storage: invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
+      it 'should resturn status uprocessable entity' do
+        # post :create, params: {storage: invalid_attributes}, session: valid_session
+        # expect(response).to have_http_status(:unprocessable_entity)
+        skip('Add a asserstion for invalid creation')
       end
     end
   end
@@ -103,14 +84,14 @@ RSpec.describe StoragesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: 'Store Room', description: 'Located over first floor' }
       }
 
       it "updates the requested storage" do
         storage = Storage.create! valid_attributes
         put :update, params: {id: storage.to_param, storage: new_attributes}, session: valid_session
         storage.reload
-        skip("Add assertions for updated state")
+        expect(storage.name).to eq(new_attributes[:name])
       end
 
       it "assigns the requested storage as @storage" do
@@ -119,10 +100,10 @@ RSpec.describe StoragesController, type: :controller do
         expect(assigns(:storage)).to eq(storage)
       end
 
-      it "redirects to the storage" do
+      it "sends response :success" do
         storage = Storage.create! valid_attributes
         put :update, params: {id: storage.to_param, storage: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(storage)
+        expect(response).to have_http_status(:success)
       end
     end
 
@@ -134,9 +115,9 @@ RSpec.describe StoragesController, type: :controller do
       end
 
       it "re-renders the 'edit' template" do
-        storage = Storage.create! valid_attributes
-        put :update, params: {id: storage.to_param, storage: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+        # storage = Storage.create! valid_attributes
+        # put :update, params: {id: storage.to_param, storage: invalid_attributes}, session: valid_session
+        skip('Assert invalid record updated')
       end
     end
   end
@@ -149,10 +130,10 @@ RSpec.describe StoragesController, type: :controller do
       }.to change(Storage, :count).by(-1)
     end
 
-    it "redirects to the storages list" do
+    it 'sends responce :success' do
       storage = Storage.create! valid_attributes
       delete :destroy, params: {id: storage.to_param}, session: valid_session
-      expect(response).to redirect_to(storages_url)
+      expect(response).to have_http_status(:success)
     end
   end
 
